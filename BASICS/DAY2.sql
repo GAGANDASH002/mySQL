@@ -1,0 +1,40 @@
+USE website;
+
+SHOW TABLES;
+-- INSERT MULTIPLE VALUES 
+INSERT INTO staff VALUES(4, 'George','Davis','gdavis@gmail.com'),(5,'John','Doe','johndoe@gmail.com');
+-- INSERT A NULL COLUMN VALUE (HERE LAST_NAME IS NULL)
+INSERT INTO staff (id, first_name, email) VALUES(6, 'Thomas', 'tommy@gmail.com');
+
+-- SELECT FROM
+SELECT first_name, last_name FROM STAFF;
+SELECT * FROM STAFF;
+
+
+INSERT INTO STAFF VALUES(4, 'James', 'Baker', 'jbaker@gmail.com');
+SELECT * FROM STAFF;
+-- SELECT DISTINCT VALUES
+SELECT DISTINCT first_name FROM STAFF;
+
+
+INSERT INTO STAFF VALUES(4, 'James', 'Baker', 'jbaker@gmail.com');
+SELECT * FROM STAFF;
+SELECT DISTINCT first_name FROM STAFF;
+
+SELECT * FROM STAFF WHERE first_name = 'James';
+SELECT * FROM STAFF WHERE id > 3;
+SELECT * FROM STAFF WHERE id != 3;
+-- SELECT * FROM STAFF WHERE id <> 3; (SAME AS !=)
+
+-- BETWEEN & IN OPERATOR
+SELECT * FROM STAFF WHERE ID BETWEEN 2 AND 4;
+SELECT * FROM STAFF WHERE first_name IN ('James','Mary');
+SELECT * FROM STAFF WHERE first_name NOT IN ('James','Mary');
+
+-- LIKE AND NOT LIKE
+SELECT * FROM STAFF WHERE email LIKE '%gmail.com'; -- % IS A WILDCARD USED FOR 0, 1, OR MULTIPLE CHARACTERS
+SELECT * FROM STAFF WHERE email NOT LIKE 'm_____%@%.com'; -- _ IS A WILDCARD USED FOR A SINGLE CHARACTER
+
+-- IS NULL & NOT NULL
+SELECT * FROM STAFF WHERE last_name IS NOT NULL;
+SELECT * FROM STAFF WHERE last_name IS NULL;
