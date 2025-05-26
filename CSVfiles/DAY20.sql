@@ -1,0 +1,35 @@
+-- EVENTS- A BLOCK OF THAT OCCURS AT A PARTICULAR POINT OF TIME THAT IS SPECIFIED
+SET GLOBAL event_scheduler = ON;
+-- ONE TIME EVENT
+CREATE EVENT backup 
+ON SCHEDULE AT '2025-05-23 15:53:00'
+DO
+SELECT 'first_name', 'last_name', 'department','id','location'
+UNION ALL
+SELECT * FROM staff
+INTO OUTFILE "/C:/mysql/exported_data.csv"
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+SHOW EVENTS;
+
+DELIMITER $$
+CREATE EVENT backup 
+ON SCHEDULE EVERY 1 DAY
+DO
+BEGIN
+SET @statement = CONCAT('
+SELECT \'first_name\', \'last_name\', \'department\',\'id\',\'location\'
+UNION ALL
+SELECT * FROM staff
+INTO OUTFILE \'/C:/mysql/, CURDATE() , exported_data.csv\'
+FIELDS TERMINATED BY \',\'
+OPTIONALLY ENCLOSED BY \'"\'
+LINES TERMINATED BY \'\n\';
+');
+PREPARE p1 FROM @statement;
+EXECUTE p1;
+DROP PREPARE p1;
+END $$
+DELIMITER ;

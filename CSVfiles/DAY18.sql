@@ -1,0 +1,12 @@
+-- IMPORTING DATA FROM .csv FILE TO SQL database
+-- RUN FOLLOWING QUERIES FIRST
+CREATE DATABASE super_db;
+USE super_db;
+
+CREATE TABLE staff(first_name VARCHAR(50), last_name VARCHAR(50), department VARCHAR(50), id INT, location VARCHAR(50));
+-- IN SCHEMAS RIGHT CLICK 0N TABLES UNDER super_db DATABASE AND CLICK Table Data Import Wizard AND FOLLOW ALONG
+SELECT * FROM staff;
+
+-- FOR EXPORTING DATA FROM super_db TO A .csv FILE:
+-- 1. SELECT TABLE U WANT TO EXPORT DATA FROM  SCHEMA->super_db->TABLES->staff
+-- 2. RIGHT CLICK ON staff AND CLICK ON Table Data Export Wizard

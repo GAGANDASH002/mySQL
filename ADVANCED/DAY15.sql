@@ -1,0 +1,57 @@
+-- SYSTEM VARIABLES(GLOBAL AND SESSION VARIABLES)
+SHOW DATABASES;
+SHOW VARIABLES;
+USE online_store;
+SHOW TABLES;
+
+SET SQL_SAFE_UPDATES = 0;
+-- (MANY PPL MIGHT HAVE ACCESS TO A SQL SERVER HENCE WE CAN USE SESSION TO ALTER SYSTEM VARIABLES ONLY IN CURRENT SESSION)
+SET SESSION SQL_SAFE_UPDATES = 0;
+-- GLOBALLY SETS THE SYSTEM VARIABLE IN ALL SESSIONS
+SET GLOBAL SQL_SAFE_UPDATES = 0;
+
+-- USER DEFINED VARIABLES
+SET @avg_price := (SELECT AVG(price) FROM ORDERS);
+SELECT * FROM orders WHERE price > @avg_price;
+
+-- PARAMETERS AND LOCAL VARIABLES
+DELIMITER $$
+CREATE PROCEDURE new_report(p_date DATE)
+BEGIN
+	DECLARE avg_price DOUBLE; -- LOCAL VARIABLE , CAN ONLY BE USED INSIDE A PROCEDURE
+    SET avg_price = (SELECT AVG(price) FROM orders);
+	SELECT category, product, price, avg_price
+		FROM orders
+        WHERE date = p_date
+        ORDER BY price;
+END $$
+DELIMITER ;
+
+CALL new_report('2035-10-24');
+
+-- INPUT AND OUTPUT PARAMETERS
+
+DELIMITER //
+CREATE PROCEDURE min_max(
+	IN p_shop_id INT,
+    OUT min_price INT,
+    OUT max_price INT
+)
+BEGIN
+	SELECT MIN(price), MAX(price)
+    INTO min_price, max_price
+    FROM orders
+    WHERE shop_id = p_shop_id;
+END //
+DELIMITER ;
+
+DROP PROCEDURE min_max;
+
+SET @min := 0;
+SET @max := 0;
+
+CALL min_max(1, @min, @max);
+
+SELECT (@max - @min) AS diff;
+    
+
